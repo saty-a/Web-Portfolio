@@ -1,23 +1,9 @@
 import 'package:get/get.dart';
+import 'package:webportfolio/app/routes/app_pages.dart';
 
 class LoadingController extends GetxController {
-  //TODO: Implement LoadingController
-
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  moveToHomePage() async {
+    await Future.delayed(const Duration(seconds: 2));
+    Get.toNamed(Routes.HOME);
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

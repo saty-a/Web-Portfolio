@@ -10,6 +10,8 @@ void main() {
       title: "Application",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
+      defaultTransition: Transition.fadeIn,
+      debugShowCheckedModeBanner: false,
     ),
   );
 }

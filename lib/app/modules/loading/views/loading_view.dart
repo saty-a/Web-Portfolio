@@ -10,10 +10,14 @@ class LoadingView extends GetView<LoadingController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.moveToHomePage();
     return Scaffold(
-      body: Center(
-          child: Lottie.network(
-              'https://lottie.host/53fbf8b0-1cad-4338-8c86-858f33197707/aRM8f5WpQA.json')),
+      body: Container(
+        color: Colors.grey.shade900,
+        child: Center(
+            child: Lottie.network(
+                'https://lottie.host/53fbf8b0-1cad-4338-8c86-858f33197707/aRM8f5WpQA.json')),
+      ),
     );
   }
 }
