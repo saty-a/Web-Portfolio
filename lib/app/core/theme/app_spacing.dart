@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppSpacing {
@@ -53,4 +54,11 @@ class AppSpacing {
   static double get listItemSpacing => 16.h;
   static double get sectionSpacing => 32.h;
   static double get pageSpacing => 64.h;
+
+  static double get tiny => 4.0.w;
+  static double get small => 8.0.w;
+  static double get medium => 16.0.w;
+  static double get large => 24.0.w;
+  static double get xLarge => 32.0.w;
+  static double get xxLarge => 40.0.w;
 } 

@@ -14,9 +14,57 @@ class ProjectCard extends StatelessWidget {
   }) : super(key: key);
 
   Future<void> _launchUrl(String url) async {
-    if (!await launchUrl(Uri.parse(url))) {
-      throw Exception('Could not launch $url');
+    try {
+      if (!await launchUrl(Uri.parse(url))) {
+        throw Exception('Could not launch $url');
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Could not open the link',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
+  }
+
+  Widget _buildImage() {
+    return Container(
+      height: 200,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        color: Theme.of(Get.context!).primaryColor.withOpacity(0.1),
+      ),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        child: Image.asset(
+          project.imageUrl,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.code,
+                    size: 48,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    project.title,
+                    style: AppTypography.bodyMedium(context),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 
   @override
@@ -36,15 +84,7 @@ class ProjectCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Image.asset(
-              project.imageUrl,
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
+          _buildImage(),
           Padding(
             padding: EdgeInsets.all(AppSpacing.medium),
             child: Column(
@@ -52,14 +92,14 @@ class ProjectCard extends StatelessWidget {
               children: [
                 Text(
                   project.title,
-                  style: AppTypography.h3,
+                  style: AppTypography.titleMedium(context),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: AppSpacing.small),
                 Text(
                   project.description,
-                  style: AppTypography.body2,
+                  style: AppTypography.bodySmall(context),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -69,11 +109,13 @@ class ProjectCard extends StatelessWidget {
                   runSpacing: AppSpacing.small,
                   children: project.technologies
                       .map((tech) => Chip(
-                            label: Text(tech),
-                            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
-                            labelStyle: AppTypography.caption.copyWith(
-                              color: Theme.of(context).primaryColor,
+                            label: Text(
+                              tech,
+                              style: AppTypography.labelSmall(context).copyWith(
+                                color: Theme.of(context).primaryColor,
+                              ),
                             ),
+                            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
                           ))
                       .toList(),
                 ),

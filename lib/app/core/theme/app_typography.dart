@@ -153,4 +153,43 @@ class AppTypography {
             ? AppColors.textSecondaryLight
             : AppColors.textSecondaryDark,
       );
+
+  static TextStyle get h1 => TextStyle(
+        fontSize: 32.sp,
+        fontWeight: FontWeight.bold,
+        height: 1.2,
+      );
+
+  static TextStyle get h2 => TextStyle(
+        fontSize: 24.sp,
+        fontWeight: FontWeight.bold,
+        height: 1.2,
+      );
+
+  static TextStyle get h3 => TextStyle(
+        fontSize: 20.sp,
+        fontWeight: FontWeight.bold,
+        height: 1.2,
+      );
+
+  static TextStyle get body1 => TextStyle(
+        fontSize: 16.sp,
+        height: 1.5,
+      );
+
+  static TextStyle get body2 => TextStyle(
+        fontSize: 14.sp,
+        height: 1.5,
+      );
+
+  static TextStyle get caption => TextStyle(
+        fontSize: 12.sp,
+        height: 1.5,
+      );
+
+  static TextStyle get button => TextStyle(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.bold,
+        height: 1.2,
+      );
 } 
