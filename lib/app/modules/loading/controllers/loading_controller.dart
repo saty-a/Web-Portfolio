@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:webportfolio/app/routes/app_pages.dart';
+import '../../../routes/app_pages.dart';
 
 class LoadingController extends GetxController {
   moveToHomePage() async {
