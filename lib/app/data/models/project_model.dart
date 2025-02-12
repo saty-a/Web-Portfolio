@@ -4,8 +4,8 @@ class Project {
   final String title;
   final String description;
   final String imageUrl;
-  final String githubUrl;
-  final String liveUrl;
+  final String? liveUrl;
+  final String? githubUrl;
   final List<String> technologies;
   final bool isFeatured;
 
@@ -13,8 +13,8 @@ class Project {
     required this.title,
     required this.description,
     required this.imageUrl,
-    required this.githubUrl,
-    required this.liveUrl,
+    this.liveUrl,
+    this.githubUrl,
     required this.technologies,
     this.isFeatured = false,
   });
@@ -24,8 +24,8 @@ class Project {
       title: json['title'] as String,
       description: json['description'] as String,
       imageUrl: json['imageUrl'] as String,
-      githubUrl: json['githubUrl'] as String,
-      liveUrl: json['liveUrl'] as String,
+      liveUrl: json['liveUrl'] as String?,
+      githubUrl: json['githubUrl'] as String?,
       technologies: List<String>.from(json['technologies'] as List),
       isFeatured: json['isFeatured'] as bool? ?? false,
     );
@@ -36,8 +36,8 @@ class Project {
       'title': title,
       'description': description,
       'imageUrl': imageUrl,
-      'githubUrl': githubUrl,
       'liveUrl': liveUrl,
+      'githubUrl': githubUrl,
       'technologies': technologies,
       'isFeatured': isFeatured,
     };

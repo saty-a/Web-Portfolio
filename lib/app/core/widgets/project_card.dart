@@ -1,138 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../theme/app_spacing.dart';
-import '../theme/app_typography.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/models/project_model.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_typography.dart';
 
 class ProjectCard extends StatelessWidget {
   final Project project;
 
-  const ProjectCard({
-    Key? key,
-    required this.project,
-  }) : super(key: key);
-
-  Future<void> _launchUrl(String url) async {
-    try {
-      if (!await launchUrl(Uri.parse(url))) {
-        throw Exception('Could not launch $url');
-      }
-    } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Could not open the link',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    }
-  }
-
-  Widget _buildImage() {
-    return Container(
-      height: 200,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-        color: Theme.of(Get.context!).primaryColor.withOpacity(0.1),
-      ),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-        child: Image.asset(
-          project.imageUrl,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.code,
-                    size: 48,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    project.title,
-                    style: AppTypography.bodyMedium(context),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
+  const ProjectCard({super.key, required this.project});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
             blurRadius: 10,
-            offset: const Offset(0, 4),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildImage(),
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r),
+              topRight: Radius.circular(16.r),
+            ),
+            child: Image.asset(
+              project.imageUrl,
+              height: 200.h,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
           Padding(
-            padding: EdgeInsets.all(AppSpacing.medium),
+            padding: EdgeInsets.all(16.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   project.title,
-                  style: AppTypography.titleMedium(context),
+                  style: AppTypography.titleLarge(context),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: AppSpacing.small),
+                SizedBox(height: 8.h),
                 Text(
                   project.description,
-                  style: AppTypography.bodySmall(context),
+                  style: AppTypography.bodyMedium(context),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: AppSpacing.medium),
+                SizedBox(height: 16.h),
                 Wrap(
-                  spacing: AppSpacing.small,
-                  runSpacing: AppSpacing.small,
+                  spacing: 8.w,
+                  runSpacing: 8.h,
                   children: project.technologies
                       .map((tech) => Chip(
                             label: Text(
                               tech,
-                              style: AppTypography.labelSmall(context).copyWith(
-                                color: Theme.of(context).primaryColor,
-                              ),
+                              style: AppTypography.labelSmall(context),
                             ),
-                            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                            backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                           ))
                       .toList(),
                 ),
-                SizedBox(height: AppSpacing.medium),
+                SizedBox(height: 16.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.code),
-                      onPressed: () => _launchUrl(project.githubUrl),
-                      tooltip: 'View Code',
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.launch),
-                      onPressed: () => _launchUrl(project.liveUrl),
-                      tooltip: 'Live Demo',
-                    ),
+                    if (project.githubUrl != null)
+                      IconButton(
+                        icon: const Icon(Icons.code),
+                        onPressed: () {
+                          // TODO: Implement URL launcher
+                        },
+                      ),
+                    if (project.liveUrl != null)
+                      IconButton(
+                        icon: const Icon(Icons.launch),
+                        onPressed: () {
+                          // TODO: Implement URL launcher
+                        },
+                      ),
                   ],
                 ),
               ],

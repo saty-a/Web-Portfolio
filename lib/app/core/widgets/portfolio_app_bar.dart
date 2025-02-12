@@ -8,116 +8,62 @@ import 'responsive_layout.dart';
 class PortfolioAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onThemeToggle;
   final bool isDarkMode;
+  final VoidCallback onProjectsPressed;
+  final VoidCallback onAboutPressed;
+  final VoidCallback onContactPressed;
 
   const PortfolioAppBar({
     super.key,
     required this.onThemeToggle,
     required this.isDarkMode,
+    required this.onProjectsPressed,
+    required this.onAboutPressed,
+    required this.onContactPressed,
   });
 
   @override
-  Size get preferredSize => Size.fromHeight(56.h);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: preferredSize.height,
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).shadowColor.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
+    final isDesktop = MediaQuery.of(context).size.width > 768;
+
+    return AppBar(
+      title: Text(
+        'Portfolio',
+        style: TextStyle(
+          fontSize: 20.sp,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      actions: [
+        if (isDesktop) ...[
+          TextButton(
+            onPressed: onAboutPressed,
+            child: const Text('About'),
+          ),
+          SizedBox(width: AppSpacing.h16),
+          TextButton(
+            onPressed: onProjectsPressed,
+            child: const Text('Projects'),
+          ),
+          SizedBox(width: AppSpacing.h16),
+          TextButton(
+            onPressed: onContactPressed,
+            child: const Text('Contact'),
+          ),
+          SizedBox(width: AppSpacing.h16),
+        ],
+        IconButton(
+          onPressed: onThemeToggle,
+          icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
+        ),
+        if (!isDesktop) ...[
+          IconButton(
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: const Icon(Icons.menu),
           ),
         ],
-      ),
-      child: ResponsiveLayout(
-        mobile: _buildMobileLayout(context),
-        desktop: _buildDesktopLayout(context),
-      ),
-    );
-  }
-
-  Widget _buildMobileLayout(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Portfolio',
-          style: AppTypography.titleLarge(context),
-        ),
-        Row(
-          children: [
-            IconButton(
-              onPressed: onThemeToggle,
-              icon: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: Icon(
-                  isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                  key: ValueKey(isDarkMode),
-                  color: Theme.of(context).iconTheme.color,
-                ),
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.menu,
-                color: Theme.of(context).iconTheme.color,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDesktopLayout(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Portfolio',
-          style: AppTypography.titleLarge(context),
-        ),
-        Row(
-          children: [
-            _NavItem(
-              title: 'Home',
-              isActive: true,
-              onTap: () => Get.toNamed('/'),
-            ),
-            SizedBox(width: AppSpacing.h32),
-            _NavItem(
-              title: 'Projects',
-              onTap: () {},
-            ),
-            SizedBox(width: AppSpacing.h32),
-            _NavItem(
-              title: 'About',
-              onTap: () {},
-            ),
-            SizedBox(width: AppSpacing.h32),
-            _NavItem(
-              title: 'Contact',
-              onTap: () {},
-            ),
-            SizedBox(width: AppSpacing.h32),
-            IconButton(
-              onPressed: onThemeToggle,
-              icon: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: Icon(
-                  isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                  key: ValueKey(isDarkMode),
-                  color: Theme.of(context).iconTheme.color,
-                ),
-              ),
-            ),
-          ],
-        ),
       ],
     );
   }

@@ -1,37 +1,32 @@
 import '../models/project_model.dart';
 
 class ProjectRepository {
-  final List<Project> _projects = [
+  static final List<Project> projects = [
     Project(
-      title: 'Flutter E-commerce App',
-      description: 'A modern e-commerce application built with Flutter, featuring a clean architecture with GetX pattern, responsive design, and seamless shopping experience.',
-      imageUrl: 'assets/images/projects/ecommerce.png',
-      githubUrl: 'https://github.com/saty-a/e-commerce',
-      liveUrl: 'https://saty-a.github.io/e-commerce',
-      technologies: ['Flutter', 'GetX', 'Clean Architecture', 'Responsive Design'],
-      isFeatured: true,
-    ),
-    Project(
-      title: 'Portfolio Website',
-      description: 'A modern, responsive portfolio website built with Flutter Web, showcasing projects and skills with smooth animations and dark mode support.',
+      title: 'Flutter Web Portfolio',
+      description: 'A responsive portfolio website built with Flutter Web, featuring dark mode support and smooth animations.',
       imageUrl: 'assets/images/projects/portfolio.png',
-      githubUrl: 'https://github.com/saty-a/portfolio',
-      liveUrl: 'https://saty-a.github.io/portfolio',
-      technologies: ['Flutter Web', 'GetX', 'Responsive Design', 'Animations'],
-      isFeatured: true,
+      githubUrl: 'https://github.com/yourusername/flutter-web-portfolio',
+      liveUrl: 'https://yourportfolio.dev',
+      technologies: ['Flutter', 'Dart', 'GetX', 'Responsive Design'],
     ),
     Project(
-      title: 'Flutter Weather App',
-      description: 'A beautiful weather application built with Flutter, featuring real-time weather updates, location-based forecasts, and stunning UI animations.',
-      imageUrl: 'assets/images/projects/weather.png',
-      githubUrl: 'https://github.com/saty-a/weather-app',
-      liveUrl: 'https://saty-a.github.io/weather-app',
-      technologies: ['Flutter', 'Weather API', 'Animations', 'GetX'],
-      isFeatured: true,
+      title: 'E-Commerce App',
+      description: 'A full-featured e-commerce application with cart management, user authentication, and payment integration.',
+      imageUrl: 'assets/images/projects/ecommerce.png',
+      githubUrl: 'https://github.com/yourusername/flutter-ecommerce',
+      technologies: ['Flutter', 'Firebase', 'Stripe', 'State Management'],
+    ),
+    Project(
+      title: 'Social Media Dashboard',
+      description: 'A comprehensive dashboard for social media analytics with real-time data visualization.',
+      imageUrl: 'assets/images/projects/dashboard.png',
+      liveUrl: 'https://dashboard-demo.dev',
+      technologies: ['Flutter', 'REST API', 'Charts', 'Analytics'],
     ),
   ];
 
-  List<Project> getAllProjects() => _projects;
+  List<Project> getAllProjects() => projects;
   
-  List<Project> getFeaturedProjects() => _projects.where((project) => project.isFeatured).toList();
+  List<Project> getFeaturedProjects() => projects.where((project) => project.isFeatured).toList();
 } 
