@@ -69,7 +69,7 @@ class _HomeViewState extends State<HomeView> {
               key: aboutKey,
               name: 'Satya',
               title: 'Software Engineer | Flutter & Android Developer',
-              description: 'B.Tech. (CSE) graduate from Roorkee Institute of Technology with 8.0 CGPA (2019-2023). Passionate about mobile development with expertise in Flutter and Android.',
+              description: 'B.Tech. (CSE) graduate from Roorkee Institute of Technology. Passionate about mobile development with expertise in Flutter and Android. Creating beautiful and functional applications.',
               onContactPressed: () => _scrollToSection(contactKey),
               onResumePressed: () {},
             ),
