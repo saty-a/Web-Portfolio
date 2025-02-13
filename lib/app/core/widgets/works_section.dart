@@ -26,7 +26,7 @@ class WorksSection extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
+              crossAxisCount: MediaQuery.of(context).size.width > 1200 ? 3 : 2,
               crossAxisSpacing: AppSpacing.h24,
               mainAxisSpacing: AppSpacing.v24,
               childAspectRatio: 1.2,
