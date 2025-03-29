@@ -18,7 +18,7 @@ jobs:
         with:
           flutter-version: '3.19.0'
           channel: 'stable'
-      
+          
       - name: Enable Flutter Web
         run: flutter config --enable-web
         
