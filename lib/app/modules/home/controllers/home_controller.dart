@@ -1,23 +1,22 @@
+import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../../../core/constants/content.dart';
 
 class HomeController extends GetxController {
   final RxBool isDarkMode = false.obs;
-  final RxInt currentIndex = 0.obs;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void onInit() {
     super.onInit();
-    // Initialize theme based on system preference
-    final window = WidgetsBinding.instance.window;
-    isDarkMode.value = window.platformBrightness == Brightness.dark;
-    
-    // Listen to system theme changes
-    window.onPlatformBrightnessChanged = () {
-      if (!Get.isDarkMode) { // Only update if user hasn't manually set theme
-        isDarkMode.value = window.platformBrightness == Brightness.dark;
-        Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
-      }
+    final dispatcher = PlatformDispatcher.instance;
+    isDarkMode.value = dispatcher.platformBrightness == Brightness.dark;
+
+    dispatcher.onPlatformBrightnessChanged = () {
+      isDarkMode.value = dispatcher.platformBrightness == Brightness.dark;
+      Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
     };
   }
 
@@ -26,20 +25,14 @@ class HomeController extends GetxController {
     Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
   }
 
-  void setCurrentIndex(int index) {
-    currentIndex.value = index;
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    // Called after the widget is rendered on screen
+  Future<void> copyEmail() async {
+    await Clipboard.setData(const ClipboardData(text: AppContent.email));
   }
 
   @override
   void onClose() {
-    // Remove the listener when controller is disposed
-    WidgetsBinding.instance.window.onPlatformBrightnessChanged = null;
+    scrollController.dispose();
+    PlatformDispatcher.instance.onPlatformBrightnessChanged = null;
     super.onClose();
   }
 }

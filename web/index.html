@@ -1,36 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Satya Prakash — Flutter Developer with 2+ years building cross-platform Android & iOS apps. Clean Architecture, BLoC, Firebase, Method Channel. Open to opportunities.">
+  <meta name="author" content="Satya Prakash">
+  <meta name="keywords" content="Flutter Developer, Dart, Android, iOS, Firebase, BLoC, Clean Architecture, Mobile Developer, India">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Satya Prakash | Flutter Developer">
+  <meta property="og:description" content="Flutter Developer with 2+ years. 10K+ downloads shipped. Open to opportunities.">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Satya Prakash | Flutter Developer">
+  <meta name="twitter:description" content="Flutter Developer with 2+ years. 10K+ downloads shipped. Open to opportunities.">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="webportfolio">
+  <meta name="apple-mobile-web-app-title" content="Satya Prakash">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>webportfolio</title>
+  <title>Satya Prakash | Flutter Developer</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Prevent FOUC - set background to match app -->
+  <style>
+    body {
+      margin: 0;
+      background-color: #FAFAFA;
+    }
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #0A0A0A;
+      }
+    }
+    /* Disable text selection across the whole app */
+    * {
+      -webkit-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none;
+      -webkit-touch-callout: none;
+    }
+  </style>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>

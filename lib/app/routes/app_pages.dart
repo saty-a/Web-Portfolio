@@ -1,15 +1,15 @@
 import 'package:get/get.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
-import '../modules/loading/bindings/loading_binding.dart';
-import '../modules/loading/views/loading_view.dart';
+import '../modules/case_study/bindings/case_study_binding.dart';
+import '../modules/case_study/views/case_study_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LOADING;
+  static const INITIAL = Routes.HOME;
 
   static final routes = [
     GetPage(
@@ -18,9 +18,11 @@ class AppPages {
       binding: HomeBinding(),
     ),
     GetPage(
-      name: _Paths.LOADING,
-      page: () => const LoadingView(),
-      binding: LoadingBinding(),
+      name: _Paths.CASE_STUDY,
+      page: () => const CaseStudyView(),
+      binding: CaseStudyBinding(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
     ),
   ];
 }

@@ -1,155 +1,196 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../constants/content.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
 import 'responsive_layout.dart';
 
-class HeroSection extends StatelessWidget {
-  final String name;
-  final String title;
-  final String description;
-  final VoidCallback onContactPressed;
-  final VoidCallback onResumePressed;
+class HeroSection extends StatefulWidget {
+  const HeroSection({super.key});
 
-  const HeroSection({
-    super.key,
-    required this.name,
-    required this.title,
-    required this.description,
-    required this.onContactPressed,
-    required this.onResumePressed,
-  });
+  @override
+  State<HeroSection> createState() => _HeroSectionState();
+}
+
+class _HeroSectionState extends State<HeroSection>
+    with TickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final List<Animation<double>> _fadeAnimations;
+  late final List<Animation<Offset>> _slideAnimations;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1200),
+      vsync: this,
+    );
+
+    _fadeAnimations = List.generate(4, (i) {
+      final start = i * 0.2;
+      final end = (start + 0.4).clamp(0.0, 1.0);
+      return Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+          parent: _controller,
+          curve: Interval(start, end, curve: Curves.easeOut),
+        ),
+      );
+    });
+
+    _slideAnimations = List.generate(4, (i) {
+      final start = i * 0.2;
+      final end = (start + 0.4).clamp(0.0, 1.0);
+      return Tween<Offset>(
+        begin: const Offset(0, 16),
+        end: Offset.zero,
+      ).animate(
+        CurvedAnimation(
+          parent: _controller,
+          curve: Interval(start, end, curve: Curves.easeOut),
+        ),
+      );
+    });
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Widget _animated(int index, Widget child) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, _) => Transform.translate(
+        offset: _slideAnimations[index].value,
+        child: Opacity(opacity: _fadeAnimations[index].value, child: child),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: Theme.of(context).brightness == Brightness.light
-              ? AppColors.surfaceGradientLight
-              : AppColors.surfaceGradientDark,
-        ),
-      ),
-      child: ResponsiveLayout(
-        mobile: _buildMobileLayout(context),
-        desktop: _buildDesktopLayout(context),
-      ),
-    );
-  }
+    final isMobile = ResponsiveLayout.isMobile(context);
 
-  Widget _buildMobileLayout(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSpacing.screenPadding,
-        vertical: AppSpacing.pageSpacing,
+      padding: EdgeInsets.only(
+        left: isMobile ? AppSpacing.screenPaddingMobile : 40,
+        right: isMobile ? AppSpacing.screenPaddingMobile : 40,
+        top: isMobile ? 40 : 80,
+        bottom: isMobile ? AppSpacing.sectionSpacingMobile : AppSpacing.sectionSpacing,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Hi, I\'m $name 👋',
-            style: AppTypography.displaySmall(context),
-          ),
-          SizedBox(height: AppSpacing.v16),
-          Text(
-            title,
-            style: AppTypography.headlineMedium(context).copyWith(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-          SizedBox(height: AppSpacing.v24),
-          Text(
-            description,
-            style: AppTypography.bodyLarge(context),
-          ),
-          SizedBox(height: AppSpacing.v32),
-          Row(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: ResponsiveLayout.maxContentWidth),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ElevatedButton(
-                onPressed: onContactPressed,
-                child: const Text('Contact Me'),
+              // Greeting
+              _animated(
+                0,
+                Text(
+                  AppContent.heroGreeting,
+                  style: isMobile
+                      ? AppTypography.displaySmall(context)
+                      : AppTypography.displayLarge(context),
+                ),
               ),
-              SizedBox(width: AppSpacing.h16),
-              OutlinedButton(
-                onPressed: onResumePressed,
-                child: const Text('View Resume'),
+              SizedBox(height: isMobile ? 20 : 32),
+              // Bio paragraph
+              _animated(
+                1,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 680),
+                  child: Text(
+                    AppContent.heroBio,
+                    style: AppTypography.bodyLarge(context),
+                  ),
+                ),
+              ),
+              SizedBox(height: isMobile ? 32 : 48),
+              // Impact stats
+              _animated(
+                2,
+                _buildStats(context, isMobile),
+              ),
+              SizedBox(height: isMobile ? 32 : 48),
+              // Key details as simple label-value list
+              _animated(
+                3,
+                _buildDetails(context, isMobile),
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildDesktopLayout(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 1200),
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSpacing.screenPadding,
-        vertical: AppSpacing.pageSpacing,
-      ),
-      child: Row(
+  Widget _buildStats(BuildContext context, bool isMobile) {
+    return Wrap(
+      spacing: isMobile ? 32 : 56,
+      runSpacing: 20,
+      children: AppContent.heroStats.map((stat) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Hi, I\'m $name 👋',
-                  style: AppTypography.displayLarge(context),
-                ),
-                SizedBox(height: AppSpacing.v16),
-                Text(
-                  title,
-                  style: AppTypography.headlineLarge(context).copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                SizedBox(height: AppSpacing.v24),
-                Text(
-                  description,
-                  style: AppTypography.bodyLarge(context),
-                ),
-                SizedBox(height: AppSpacing.v32),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: onContactPressed,
-                      child: const Text('Contact Me'),
-                    ),
-                    SizedBox(width: AppSpacing.h16),
-                    OutlinedButton(
-                      onPressed: onResumePressed,
-                      child: const Text('View Resume'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          Text(
+            stat.key,
+            style: (isMobile
+                ? AppTypography.displaySmall(context)
+                : AppTypography.displayMedium(context)
+            ).copyWith(color: AppColors.accent, fontWeight: FontWeight.w700),
           ),
-          SizedBox(width: AppSpacing.h48),
-          Expanded(
-            child: Container(
-              height: 400.h,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(AppSpacing.r32),
-              ),
-              child: Center(
-                child: Icon(
-                  Icons.person,
-                  size: 200.r,
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                ),
-              ),
-            ),
-          ),
+          Text(stat.value, style: AppTypography.bodySmall(context)),
         ],
-      ),
+      )).toList(),
     );
   }
-} 
+
+  Widget _buildDetails(BuildContext context, bool isMobile) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    if (isMobile) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: AppContent.heroDetails.map((d) => Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: _detailRow(context, d.key, d.value, isDark),
+        )).toList(),
+      );
+    }
+
+    // Desktop: 2-column grid
+    return Wrap(
+      spacing: 80,
+      runSpacing: 20,
+      children: AppContent.heroDetails.map((d) => SizedBox(
+        width: 240,
+        child: _detailRow(context, d.key, d.value, isDark),
+      )).toList(),
+    );
+  }
+
+  Widget _detailRow(BuildContext context, String label, String value, bool isDark) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: AppTypography.labelSmall(context).copyWith(
+            letterSpacing: 1.2,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          value,
+          style: AppTypography.bodyMedium(context).copyWith(
+            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+          ),
+        ),
+      ],
+    );
+  }
+}

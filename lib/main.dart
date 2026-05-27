@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +7,10 @@ import 'app/core/theme/app_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(
+    // Disable Flutter-level text selection (CanvasKit + SelectionArea widgets)
+    const SelectionContainer.disabled(child: MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,8 +18,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final window = WidgetsBinding.instance.window;
-    final isDark = window.platformBrightness == Brightness.dark;
+    final isDark = PlatformDispatcher.instance.platformBrightness == Brightness.dark;
 
     return ScreenUtilInit(
       designSize: const Size(1920, 1080), // Design size for web
@@ -23,7 +26,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
-          title: 'Web Portfolio',
+          title: 'Satya Prakash | Flutter Developer',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
