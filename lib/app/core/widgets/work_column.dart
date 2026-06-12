@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../data/models/project_model.dart';
+import '../../modules/home/controllers/home_controller.dart';
 import '../constants/content.dart';
 import '../theme/app_colors.dart';
 import 'github_stats_grid.dart';
@@ -55,7 +56,7 @@ class WorkColumn extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              'HIGHLIGHTED WORK',
+              'PRODUCTION APPS',
               style: GoogleFonts.jetBrainsMono(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
@@ -96,8 +97,7 @@ class _WorkCardState extends State<_WorkCard> {
   }
 
   void _openCaseStudy() {
-    Get.delete<dynamic>(tag: 'CaseStudyController', force: true);
-    Get.toNamed('/case-study', arguments: widget.project);
+    Get.find<HomeController>().requestOpenCaseStudy(widget.project);
   }
 
   @override

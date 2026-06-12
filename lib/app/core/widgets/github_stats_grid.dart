@@ -146,16 +146,19 @@ class _GitHubStatsGridState extends State<GitHubStatsGrid> {
         const SizedBox(height: 12),
 
         // ── Data ──
+        // initialData = service cache: when the panel remounts (case study
+        // open/close, panel swap) stats render instantly — no skeleton flash.
         FutureBuilder<GitHubStats>(
           future: _future,
+          initialData: GitHubService.cachedStats,
           builder: (context, snap) {
+            if (snap.hasData) {
+              return _StatsContent(stats: snap.data!, isDark: widget.isDark);
+            }
             if (snap.connectionState == ConnectionState.waiting) {
               return _LoadingSkeleton(isDark: widget.isDark);
             }
-            if (snap.hasError || !snap.hasData) {
-              return _ErrorState(isDark: widget.isDark, onRetry: _refresh);
-            }
-            return _StatsContent(stats: snap.data!, isDark: widget.isDark);
+            return _ErrorState(isDark: widget.isDark, onRetry: _refresh);
           },
         ),
       ],

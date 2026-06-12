@@ -14,7 +14,8 @@ class BentoGrid extends StatelessWidget {
   final bool isDark;
   final VoidCallback onThemeToggle;
 
-  const BentoGrid({super.key, required this.isDark, required this.onThemeToggle});
+  const BentoGrid(
+      {super.key, required this.isDark, required this.onThemeToggle});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,9 @@ class BentoGrid extends StatelessWidget {
         children: [
           Expanded(child: _TimeBarCard(isDark: isDark)),
           const SizedBox(width: 12),
-          SizedBox(width: 64, child: _ThemeToggleCard(isDark: isDark, onToggle: onThemeToggle)),
+          SizedBox(
+              width: 64,
+              child: _ThemeToggleCard(isDark: isDark, onToggle: onThemeToggle)),
         ],
       ),
     );
@@ -48,7 +51,9 @@ class BentoGrid extends StatelessWidget {
         children: [
           Expanded(child: _TimeBarCard(isDark: isDark)),
           const SizedBox(width: 10),
-          SizedBox(width: 56, child: _ThemeToggleCard(isDark: isDark, onToggle: onThemeToggle)),
+          SizedBox(
+              width: 56,
+              child: _ThemeToggleCard(isDark: isDark, onToggle: onThemeToggle)),
         ],
       ),
     );
@@ -63,7 +68,9 @@ class BentoGrid extends StatelessWidget {
         children: [
           Expanded(child: _LiveTimeCard(isDark: isDark)),
           const SizedBox(width: 10),
-          SizedBox(width: 52, child: _ThemeToggleCard(isDark: isDark, onToggle: onThemeToggle)),
+          SizedBox(
+              width: 52,
+              child: _ThemeToggleCard(isDark: isDark, onToggle: onThemeToggle)),
         ],
       ),
     );
@@ -96,9 +103,10 @@ class _BentoCardState extends State<_BentoCard> {
   Widget build(BuildContext context) {
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
-      onExit:  (_) => setState(() => _hovered = false),
+      onExit: (_) => setState(() => _hovered = false),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOutCubic,
         padding: widget.padding,
         decoration: BoxDecoration(
           color: widget.isDark ? AppColors.cardDark : AppColors.cardLight,
@@ -106,9 +114,20 @@ class _BentoCardState extends State<_BentoCard> {
           border: Border.all(
             color: _hovered
                 ? AppColors.accent.withValues(alpha: 0.35)
-                : (widget.isDark ? AppColors.borderDark : AppColors.borderLight),
+                : (widget.isDark
+                    ? AppColors.borderDark
+                    : AppColors.borderLight),
             width: _hovered ? 1.5 : 1.0,
           ),
+          boxShadow: _hovered
+              ? [
+                  BoxShadow(
+                    color: AppColors.accent.withValues(alpha: 0.10),
+                    blurRadius: 14,
+                    spreadRadius: 1,
+                  )
+                ]
+              : null,
         ),
         child: widget.child,
       ),
@@ -129,12 +148,24 @@ class _LiveTimeCard extends StatefulWidget {
 }
 
 class _LiveTimeCardState extends State<_LiveTimeCard> {
-  late Timer    _timer;
+  late Timer _timer;
   late DateTime _now;
 
-  static const _days   = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
-  static const _months = ['JAN','FEB','MAR','APR','MAY','JUN',
-                           'JUL','AUG','SEP','OCT','NOV','DEC'];
+  static const _days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  static const _months = [
+    'JAN',
+    'FEB',
+    'MAR',
+    'APR',
+    'MAY',
+    'JUN',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC'
+  ];
 
   DateTime _ist() =>
       DateTime.now().toUtc().add(const Duration(hours: 5, minutes: 30));
@@ -150,10 +181,12 @@ class _LiveTimeCardState extends State<_LiveTimeCard> {
   @override
   void initState() {
     super.initState();
-    _now   = _ist();
+    _now = _ist();
     _timer = Timer.periodic(
       const Duration(seconds: 1),
-      (_) { if (mounted) setState(() => _now = _ist()); },
+      (_) {
+        if (mounted) setState(() => _now = _ist());
+      },
     );
   }
 
@@ -165,47 +198,59 @@ class _LiveTimeCardState extends State<_LiveTimeCard> {
 
   @override
   Widget build(BuildContext context) {
-    final tertiary  = widget.isDark ? AppColors.textTertiaryDark  : AppColors.textTertiaryLight;
-    final secondary = widget.isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+    final tertiary = widget.isDark
+        ? AppColors.textTertiaryDark
+        : AppColors.textTertiaryLight;
+    final secondary = widget.isDark
+        ? AppColors.textSecondaryDark
+        : AppColors.textSecondaryLight;
 
     return _BentoCard(
       isDark: widget.isDark,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       child: LayoutBuilder(
         builder: (ctx, box) {
-          final h         = box.maxHeight.isFinite ? box.maxHeight : 160.0;
-          final timeSize  = (h * 0.20).clamp(14.0, 28.0);
-          final labelSize = (h * 0.07).clamp(8.0, 12.0);
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'IST · UTC+5:30',
-                style: GoogleFonts.jetBrainsMono(
-                  fontSize: labelSize,
-                  letterSpacing: 1.2,
-                  color: tertiary,
+          final h = box.maxHeight.isFinite ? box.maxHeight : 160.0;
+          final timeSize = (h * 0.28).clamp(13.0, 28.0);
+          final labelSize = (h * 0.18).clamp(8.0, 12.0);
+          return FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'IST · UTC+5:30',
+                  style: GoogleFonts.jetBrainsMono(
+                    fontSize: labelSize,
+                    letterSpacing: 1.2,
+                    height: 1.0,
+                    color: tertiary,
+                  ),
                 ),
-              ),
-              SizedBox(height: h * 0.04),
-              Text(
-                _timeStr(_now),
-                style: GoogleFonts.jetBrainsMono(
-                  fontSize: timeSize,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.accent,
-                  letterSpacing: 1,
+                SizedBox(height: (h * 0.06).clamp(2.0, 6.0)),
+                Text(
+                  _timeStr(_now),
+                  style: GoogleFonts.jetBrainsMono(
+                    fontSize: timeSize,
+                    fontWeight: FontWeight.w600,
+                    height: 1.0,
+                    color: AppColors.accent,
+                    letterSpacing: 1,
+                  ),
                 ),
-              ),
-              SizedBox(height: h * 0.03),
-              Text(
-                _dateStr(_now),
-                style: GoogleFonts.jetBrainsMono(
-                  fontSize: labelSize,
-                  color: secondary,
+                SizedBox(height: (h * 0.05).clamp(2.0, 5.0)),
+                Text(
+                  _dateStr(_now),
+                  style: GoogleFonts.jetBrainsMono(
+                    fontSize: labelSize,
+                    height: 1.0,
+                    color: secondary,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),
@@ -226,12 +271,24 @@ class _TimeBarCard extends StatefulWidget {
 }
 
 class _TimeBarCardState extends State<_TimeBarCard> {
-  late Timer    _timer;
+  late Timer _timer;
   late DateTime _now;
 
-  static const _days   = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
-  static const _months = ['JAN','FEB','MAR','APR','MAY','JUN',
-                           'JUL','AUG','SEP','OCT','NOV','DEC'];
+  static const _days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  static const _months = [
+    'JAN',
+    'FEB',
+    'MAR',
+    'APR',
+    'MAY',
+    'JUN',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC'
+  ];
 
   DateTime _ist() =>
       DateTime.now().toUtc().add(const Duration(hours: 5, minutes: 30));
@@ -247,10 +304,12 @@ class _TimeBarCardState extends State<_TimeBarCard> {
   @override
   void initState() {
     super.initState();
-    _now   = _ist();
+    _now = _ist();
     _timer = Timer.periodic(
       const Duration(seconds: 1),
-      (_) { if (mounted) setState(() => _now = _ist()); },
+      (_) {
+        if (mounted) setState(() => _now = _ist());
+      },
     );
   }
 
@@ -262,8 +321,12 @@ class _TimeBarCardState extends State<_TimeBarCard> {
 
   @override
   Widget build(BuildContext context) {
-    final tertiary  = widget.isDark ? AppColors.textTertiaryDark  : AppColors.textTertiaryLight;
-    final secondary = widget.isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+    final tertiary = widget.isDark
+        ? AppColors.textTertiaryDark
+        : AppColors.textTertiaryLight;
+    final secondary = widget.isDark
+        ? AppColors.textSecondaryDark
+        : AppColors.textSecondaryLight;
 
     return _BentoCard(
       isDark: widget.isDark,
@@ -317,7 +380,7 @@ class _TimeBarCardState extends State<_TimeBarCard> {
           const Spacer(),
           // ── Decorative monospace tagline ──────────────────────────────────
           Text(
-            '{ new delhi }',
+            'flutter build --release',
             style: GoogleFonts.jetBrainsMono(
               fontSize: 11,
               letterSpacing: 1.2,
@@ -351,28 +414,64 @@ class _ThemeToggleCardState extends State<_ThemeToggleCard> {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hovered = true),
-      onExit:  (_) => setState(() => _hovered = false),
+      onExit: (_) => setState(() => _hovered = false),
       child: GestureDetector(
         onTap: widget.onToggle,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
-          decoration: BoxDecoration(
-            color: widget.isDark ? AppColors.cardDark : AppColors.cardLight,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: _hovered
-                  ? AppColors.accent.withValues(alpha: 0.35)
-                  : (widget.isDark ? AppColors.borderDark : AppColors.borderLight),
-              width: _hovered ? 1.5 : 1.0,
+        child: Tooltip(
+          message:
+              widget.isDark ? 'Switch to light mode' : 'Switch to dark mode',
+          waitDuration: const Duration(milliseconds: 500),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOutCubic,
+            decoration: BoxDecoration(
+              color: widget.isDark ? AppColors.cardDark : AppColors.cardLight,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: _hovered
+                    ? AppColors.accent.withValues(alpha: 0.35)
+                    : (widget.isDark
+                        ? AppColors.borderDark
+                        : AppColors.borderLight),
+                width: _hovered ? 1.5 : 1.0,
+              ),
+              boxShadow: _hovered
+                  ? [
+                      BoxShadow(
+                        color: AppColors.accent.withValues(alpha: 0.10),
+                        blurRadius: 14,
+                        spreadRadius: 1,
+                      )
+                    ]
+                  : null,
             ),
-          ),
-          child: Center(
-            child: Icon(
-              widget.isDark ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
-              size: 18,
-              color: widget.isDark
-                  ? AppColors.textSecondaryDark
-                  : AppColors.textSecondaryLight,
+            child: Center(
+              child: AnimatedScale(
+                scale: _hovered ? 1.15 : 1.0,
+                duration: const Duration(milliseconds: 180),
+                curve: Curves.easeOutBack,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 350),
+                  switchInCurve: Curves.easeOutBack,
+                  switchOutCurve: Curves.easeIn,
+                  transitionBuilder: (child, anim) => RotationTransition(
+                    turns: Tween<double>(begin: 0.75, end: 1.0).animate(anim),
+                    child: FadeTransition(opacity: anim, child: child),
+                  ),
+                  child: Icon(
+                    widget.isDark
+                        ? Icons.dark_mode_outlined
+                        : Icons.light_mode_outlined,
+                    key: ValueKey(widget.isDark),
+                    size: 18,
+                    color: _hovered
+                        ? AppColors.accent
+                        : (widget.isDark
+                            ? AppColors.textSecondaryDark
+                            : AppColors.textSecondaryLight),
+                  ),
+                ),
+              ),
             ),
           ),
         ),

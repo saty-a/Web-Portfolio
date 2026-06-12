@@ -12,15 +12,16 @@ class AppContent {
   static const String linkedInUrl = 'https://linkedin.com/in/saty/';
 
   // Hero section
-  static const String heroGreeting = "I build Flutter apps that ship.";
+  static const String heroGreeting = "I architect and ship Flutter — five years, both stores, real users.";
 
   static const String heroBio =
-      'Flutter Developer with 2+ years building cross-platform apps for Android & iOS. '
-      'I work across the full mobile stack — clean architecture, Firebase, native integrations, '
-      'and payment gateways — and use AI tooling to ship faster without cutting corners.';
+      'Senior Flutter Developer with 5+ years building production apps for Android, iOS, Windows & Web. '
+      'Clean Architecture and native integration are my defaults — HealthKit, Google Fit, Method Channel, '
+      'and three payment gateways shipped to production. '
+      '10,000+ users run apps I own end-to-end.';
 
   static const List<MapEntry<String, String>> heroDetails = [
-    MapEntry('ROLE', 'Flutter Developer'),
+    MapEntry('ROLE', 'Senior Flutter Developer'),
     MapEntry('FOCUS', 'Flutter · Dart · Clean Architecture'),
     MapEntry('LOCATION', 'New Delhi, India'),
     MapEntry('STATUS', 'Open to opportunities'),
@@ -28,28 +29,29 @@ class AppContent {
 
   // Stats row in hero
   static const List<MapEntry<String, String>> heroStats = [
-    MapEntry('2+', 'years experience'),
-    MapEntry('10K+', 'app downloads'),
-    MapEntry('5', 'shipped apps'),
-    MapEntry('2', 'open source contribs'),
+    MapEntry('5+', 'years Flutter'),
+    MapEntry('10K+', 'downloads'),
+    MapEntry('6', 'shipped apps'),
+    MapEntry('2', 'OSS contribs'),
   ];
 
   // About column
   static const String aboutIntro =
-      'Flutter Developer based in New Delhi. I design and build '
-      'cross-platform apps that reach real users — from KYC onboarding flows '
-      'to health-tracking platforms and open-source tooling.';
+      'Flutter Developer based in New Delhi. I build production-grade '
+      'cross-platform apps — from KYC onboarding and real-time chat '
+      'to AI companions and offline-first tools across 6 platforms.';
 
   static const String aboutBio =
       'B.Tech CSE, Roorkee Institute of Technology (UTU), GPA 8.0. '
-      'I value clean architecture, measurable impact, and shipping on time.';
+      '5 years in Flutter. Clean Architecture and measurable impact are non-negotiable. '
+      '10,000+ users depend on apps I\'ve built and shipped.';
 
   // Role details
   static const List<MapEntry<String, String>> roleDetails = [
-    MapEntry('ROLE', 'Flutter Developer: Full mobile layer — UI, state, native integrations, release pipelines.'),
-    MapEntry('FOCUS', 'Cross-platform: One codebase, two stores. Flutter with BLoC, Riverpod, or GetX.'),
-    MapEntry('STACK', 'Flutter, Dart, Firebase, Razorpay, Cashfree, ZegoCloud, Google Fit, HealthKit, Method Channel.'),
-    MapEntry('AI TOOLS', 'Claude Code, GitHub Copilot — used in production. Shipped 2 features 30% faster.'),
+    MapEntry('ROLE', 'Flutter Engineer: Full ownership — UI, state, native bridges, CI/CD, release, and post-launch.'),
+    MapEntry('FOCUS', 'Cross-platform: One Dart codebase, multiple stores. I pick BLoC, Riverpod, or GetX for the problem.'),
+    MapEntry('STACK', 'Flutter, Dart, Firebase, Razorpay, Cashfree, ZegoCloud, Google Fit, HealthKit, Method Channel, SQLite.'),
+    MapEntry('AI TOOLS', 'Claude Code + GitHub Copilot — production-proven. 30% faster feature delivery. Zero regressions in 6 months.'),
   ];
 
   // Skills by category — consumed by SkillsSection widget
@@ -100,10 +102,10 @@ class AppContent {
       year: '2022',
       title: 'Mobile Engineer Intern',
       organization: 'Squareboat · Gurugram',
-      description: 'Mobile engineering internship building production Flutter apps at Squareboat.',
+      description: 'Delivered Flutter features across multiple client apps in a fast-paced agency environment. Owned full SDLC — design handoff to Play Store release. Learned production Git workflow, code review standards, and sprint delivery under senior engineers.',
       type: MilestoneType.work,
       employmentType: 'Internship',
-      dateRange: 'Dec 2022 – Jun 2023 ',
+      dateRange: 'Dec 2022 – Jun 2023',
       sortOrder: 2,
     ),
     CareerMilestone(
@@ -121,11 +123,104 @@ class AppContent {
   // Featured projects
   static const List<Project> featuredProjects = [
     Project(
-      title: 'flutter_app_size_reducer',
-      shortDescription: 'pub.dev CLI package — only tool of its kind for Flutter app size reduction.',
+      title: 'Crimson Desert Guide',
+      shortDescription: 'Unofficial companion app · 5,700+ map POIs · Android & iOS.',
+      tagline: 'Every boss. Every quest. Every location. In your pocket.',
       longDescription:
-          'CLI package that scans Flutter projects for unused assets and removes them automatically. '
-          'Achieves 15–30% app size reduction. First and only pub.dev package of its kind.',
+          'Full-featured companion wiki for the action RPG Crimson Desert, built solo. '
+          'Interactive world map with 5,716 pinned locations across 94 category types. '
+          'Encyclopaedia covering 86 bosses, 396 quests (main + faction), 10,954+ database entries, '
+          'crafting recipes, lore, tier lists, and progression roadmap. '
+          'AI chat companion (Oracle Vision) for in-game advice. '
+          'Freemium — AdMob + IAP premium tier. Clean Architecture · Riverpod · 112 Dart files.',
+      logoUrl: 'assets/images/projects/cdg.png',
+      imageUrls: [
+        'assets/images/projects/cdg.png',
+      ],
+      screenshotUrls: [],
+      playStoreUrl: 'https://play.google.com/store/apps/details?id=com.esp.crimsondesert',
+      appStoreUrl: 'https://apps.apple.com/us/app/crimson-guide-wiki/id6766054406',
+      technologies: [
+        'Flutter', 'Dart', 'Riverpod', 'Clean Architecture',
+        'Firebase AI', 'AdMob', 'In-App Purchase', 'Dio', 'Custom Map Renderer',
+      ],
+      category: ProjectCategory.featured,
+      role: 'Author',
+      sortOrder: 3,
+      problem:
+          'Crimson Desert launched with no official companion app — players had to juggle '
+          'multiple browser wikis, spreadsheets, and Discord threads just to track quests, '
+          'find map locations, or look up boss strategies. The core technical challenge: '
+          'render a custom interactive world map with 5,716 POIs spanning 94 category types '
+          'on a single sprite sheet, with filter/search, inside a Flutter mobile app — '
+          'all without a backend, keeping everything offline-first.',
+      solution:
+          'Built a 112-file Clean Architecture Flutter app entirely solo. '
+          'Scraped, cleaned, and structured 10,954+ game entries into typed JSON datasets '
+          '(bosses, quests, items, crafting, lore, regions). '
+          'Implemented a custom canvas-based world map renderer using a 94-category sprite sheet '
+          '— 5,716 locations load instantly from asset JSON with category filter, '
+          'zoom, and tap-to-detail. Oracle Vision AI companion (Firebase Gemini) answers '
+          'in-game questions with context. Freemium stack: AdMob banner/interstitial '
+          'for free tier, IAP unlocks full database access. Shipped to both Play Store and App Store.',
+      metrics: [
+        CaseStudyMetric(value: '5,716', label: 'Map Locations', icon: Icons.map_rounded),
+        CaseStudyMetric(value: '94', label: 'Marker Categories', icon: Icons.category_rounded),
+        CaseStudyMetric(value: '86', label: 'Bosses Documented', icon: Icons.sports_kabaddi_rounded),
+        CaseStudyMetric(value: '10K+', label: 'DB Entries', icon: Icons.storage_rounded),
+      ],
+      features: [
+        CaseStudyFeature(
+          name: 'Interactive World Map',
+          description:
+              'Custom canvas renderer pins 5,716 locations across 94 categories using a '
+              'sprite sheet. Category filters, zoom, tap-to-detail — fully offline.',
+          icon: Icons.map_rounded,
+        ),
+        CaseStudyFeature(
+          name: 'Boss Encyclopedia',
+          description:
+              '86 bosses with stats, strategies, loot tables, difficulty ratings, '
+              'and weekly boss tracker. Danger meter and difficulty badges per entry.',
+          icon: Icons.sports_kabaddi_rounded,
+        ),
+        CaseStudyFeature(
+          name: 'Quest Database',
+          description:
+              '396 quests (168 main + 228 faction) with objectives, rewards, '
+              'and location cross-links. Progress tracking with completion toggle.',
+          icon: Icons.assignment_rounded,
+        ),
+        CaseStudyFeature(
+          name: 'Oracle Vision AI',
+          description:
+              'Firebase Gemini-powered in-app chat answers game questions with '
+              'context-aware responses. Dual-tier caching minimises API cost.',
+          icon: Icons.psychology_rounded,
+        ),
+        CaseStudyFeature(
+          name: 'Item & Crafting DB',
+          description:
+              '10,954+ entries across weapons, armour, mounts, consumables, materials, '
+              'and crafting recipes — all offline-first from typed asset JSON.',
+          icon: Icons.inventory_2_rounded,
+        ),
+        CaseStudyFeature(
+          name: 'Freemium Monetization',
+          description:
+              'AdMob banner + interstitial for free tier. IAP premium unlocks full '
+              'database, ad-free experience, and Oracle Vision AI — shipped to both stores.',
+          icon: Icons.workspace_premium_rounded,
+        ),
+      ],
+    ),
+    Project(
+      title: 'flutter_app_size_reducer',
+      shortDescription: 'pub.dev CLI tool — automated unused-asset removal. Cuts Flutter app size 15–30%.',
+      longDescription:
+          'CLI package that statically scans a Flutter project for all image and file assets '
+          'referenced in code versus declared in pubspec.yaml — removes orphans automatically. '
+          '15–30% size reduction in one command. First and only tool of its kind on pub.dev.',
       imageUrls: [],
       liveUrl: 'https://pub.dev/packages/flutter_app_size_reducer',
       technologies: ['Dart', 'CLI', 'pub.dev', 'Open Source'],
@@ -306,7 +401,7 @@ class AppContent {
       ],
       category: ProjectCategory.featured,
       role: 'Flutter Developer',
-      sortOrder: 3,
+      sortOrder: 4,
       problem:
           'History education apps are static, shallow, and boring — plain Wikipedia lists with '
           'no AI context, no gamification, and no daily engagement loop. Existing trivia apps '
@@ -381,16 +476,17 @@ class AppContent {
     ),
     Project(
       title: 'ImageKit SDK + Flutter OTP TextField',
-      shortDescription: 'Open-source contributions — builder pattern SDK and merged PRs.',
+      shortDescription: 'Open-source contributions — builder-pattern URL API and OTP UX fixes merged to main.',
       longDescription:
-          'Builder-pattern URL constructors + JaCoCo test suite for ImageKit Android SDK. '
-          'Multiple PRs merged into Flutter OTP TextField package improving developer UX.',
+          'Added builder-pattern URL constructors and JaCoCo test coverage suite to the imagekit-android SDK. '
+          'Multiple PRs merged into flutter_otp_text_field — fixed cursor behaviour, '
+          'auto-submit edge cases, and input validation issues used by thousands of Flutter apps.',
       imageUrls: [],
       githubUrl: 'https://github.com/imagekit-developer/imagekit-android',
       technologies: ['Kotlin', 'Android', 'JaCoCo', 'Flutter', 'Open Source'],
       category: ProjectCategory.openSource,
       role: 'Contributor',
-      sortOrder: 4,
+      sortOrder: 5,
     ),
     Project(
       title: 'Keydock — Password Manager',
@@ -408,7 +504,7 @@ class AppContent {
       technologies: ['Flutter', 'Dart', 'SQLite', 'AES Encryption', 'Windows', 'Android', 'GetX'],
       category: ProjectCategory.featured,
       role: 'Author',
-      sortOrder: 5,
+      sortOrder: 6,
       problem:
           'Most password managers require cloud accounts, subscriptions, and trust in a '
           'third-party server. Users who want full control over their credentials have no '
@@ -486,7 +582,7 @@ class AppContent {
       technologies: ['Flutter', 'Dart', 'Hive', 'Local Notifications', 'Multi-Platform'],
       category: ProjectCategory.featured,
       role: 'Author',
-      sortOrder: 6,
+      sortOrder: 7,
       problem:
           'Deadline management apps are built for teams — they add chat, integrations, '
           'boards, and collaboration features that overwhelm solo users. The result is '

@@ -76,6 +76,10 @@ class GitHubService {
     _cacheTime = null;
   }
 
+  /// Last fetched stats, if any — lets a remounted widget render instantly
+  /// (as FutureBuilder initialData) instead of flashing the loading skeleton.
+  static GitHubStats? get cachedStats => _cache;
+
   static Future<GitHubStats> fetch() async {
     // Return cached data if fresh
     if (_cache != null &&
